@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SkinTone AI</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(circle at top, #1b2233, #0b0f19);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MAIN WRAPPER */
+.container {
+    width: 92%;
+    max-width: 900px;
+    padding: 35px;
+}
+
+/* HERO CARD */
+.hero {
+    text-align: center;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.hero h1 {
+    font-size: 34px;
+    font-weight: 700;
+    background: linear-gradient(90deg, #00ffd5, #4facfe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    margin-top: 8px;
+    color: #aaa;
+}
+
+/* SAMPLES */
+.samples {
+    margin-top: 25px;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.sample {
+    flex: 1;
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    padding: 15px;
+    border-radius: 15px;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.sample img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.sample p {
+    margin-top: 8px;
+    color: #bbb;
+}
+
+/* UPLOAD BOX */
+.upload {
+    margin-top: 25px;
+    padding: 25px;
+    border-radius: 18px;
+    border: 2px dashed rgba(255,255,255,0.2);
+    text-align: center;
+    transition: 0.3s;
+    background: rgba(255,255,255,0.03);
+}
+
+.upload:hover {
+    border-color: #00ffd5;
+    background: rgba(0,255,213,0.05);
+}
+
+input[type="file"] {
+    margin-top: 15px;
+    color: white;
+}
+
+button {
+    margin-top: 15px;
+    padding: 12px 30px;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(90deg, #00ffd5, #4facfe);
+    color: black;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* RESULT */
+.result {
+    margin-top: 25px;
+    padding: 15px;
+    border-radius: 12px;
+    background: rgba(0,255,213,0.08);
+    border: 1px solid rgba(0,255,213,0.3);
+    color: #00ffd5;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.preview {
+    margin-top: 15px;
+    width: 180px;
+    border-radius: 12px;
+    border: 2px solid rgba(255,255,255,0.1);
+}
+
+.footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HERO -->
+    <div class="hero">
+        <h1>SkinTone AI</h1>
+        <p>Deep Learning CNN Model for Skin Tone Classification</p>
+
+        <!-- SAMPLES -->
+        <div class="samples">
+
+            <div class="sample">
+                <img src="/static/black.jpg">
+                <p>Dark Tone</p>
+            </div>
+
+            <div class="sample">
+                <img src="/static/brown.jpg">
+                <p>brown Tone</p>
+            </div>
+
+            <div class="sample">
+                <img src="/static/white.jpg">
+                <p>White Tone</p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- UPLOAD -->
+    <div class="upload">
+        <h2>Upload Image</h2>
+
+        <form action="/predict" method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" accept="image/*" required>
+            <br>
+            <button type="submit">Analyse Skin Tone</button>
+        </form>
+
+        {% if prediction %}
+            <div class="result">
+                Prediction: {{ prediction }}
+            </div>
+
+            <img class="preview" src="{{ url_for('uploaded_file', filename=image) }}">
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        Powered by Flask + TensorFlow CNN
+    </div>
+
+</div>
+
+</body>
+</html>
